@@ -1,0 +1,16 @@
+{
+    "android": {
+        "debug": {
+            "keystore": "./resources/XPass.jks",
+            "storePassword": "Xpass@app2020",
+            "alias": "XPass",
+            "password": "Xpass@app2020"
+        },
+        "release": {
+            "keystore": "./resources/XPass.jks",
+            "storePassword": "Xpass@app2020",
+            "alias": "XPass",
+            "password": "Xpass@app2020"
+        }
+    }
+}

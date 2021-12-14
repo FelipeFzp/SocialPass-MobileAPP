@@ -1,0 +1,68 @@
+<div class="container"
+     *ngIf="!loading">
+  <ion-input #searchInput
+             placeholder="Busque aqui categorias para seu cartão, Ex.: Marketing"
+             (ionChange)="onSearchChange($event.target)"
+             [ngClass]="{'autocomplete-active': showCategoriesSearch}"></ion-input>
+  <div class="autocomplete"
+       [ngClass]="{'show': showCategoriesSearch}">
+    <div (click)="addCategory(category.id); searchInput.value = ''"
+         *ngFor="let category of categories">
+      <span>{{ category.name }}</span>
+    </div>
+  </div>
+  <div class="chips">
+    <ion-chip [outline]="true"
+              (click)="removeCategory(category.id)"
+              *ngFor="let category of selectedCategories">
+      <ion-label>{{ category.name }}</ion-label>
+      <ion-icon name="close"></ion-icon>
+    </ion-chip>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container"
+     [ngStyle]="{'max-height': maxHeight, 'min-height': minHeight}"
+     *ngIf="categories">
+  <ion-progress-bar *ngIf="loading"
+                    type="indeterminate"
+                    color="secondary"></ion-progress-bar>
+  <ng-container *ngIf="!loading">
+    <ion-input placeholder="Digite aqui para pesquisar"
+               (ionChange)="filterCategories($event)"></ion-input>
+    <div class="group"
+         *ngFor="let category of categories">
+      <span>{{category.name}}</span>
+      <div class="childs">
+        <div *ngFor="let child of category.childs"
+             (click)="onCategorySelect(child.id)">
+          <ion-checkbox [disabled]="reachLimit && (!childSelections[child.id] || childSelections[child.id] == false)"
+                        [checked]="childSelections[child.id]"></ion-checkbox>
+          <span>{{child.name}}</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div> -->

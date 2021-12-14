@@ -1,0 +1,151 @@
+<base-toolbar [showButtonBack]="true"
+              [title]="user?.name"
+              *ngIf="!isMyCard"></base-toolbar>
+
+<base-content [background]="background"
+              [backBackground]="backBackgroundColor"
+              [blur]="blur"
+              [showBackgroundOverlay]="true"
+              *ngIf="user && card && background">
+    <div class="overlay"
+         [ngClass]="{'show': fabIsOpen}"></div>
+
+    <div class="status-bar"
+         (click)="showCardStatistics()"
+         *ngIf="isDesktop">
+        <div class="container">
+            <div class="left-container">
+            </div>
+            <div class="right-container">
+                <div class="info">
+                    <ion-icon name="people-outline"></ion-icon>
+                    <span>{{card.followersCount || 0}}</span>
+                </div>
+                <div class="info">
+                    <ion-icon name="eye-outline"></ion-icon>
+                    <span>{{card.viewsCount || 0}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header"
+         [style.color]="card.background.contrastColor">
+        <img #profileImage
+             [src]="user.imageUrl"
+             (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+        <div class="infos">
+            <div class="name">{{ user.name }}</div>
+            <div class="bio">{{ user.bio }}</div>
+            <div class="view"
+                 *ngIf="isMyCard"
+                 (click)="navCtrl.navigateForward('/icons-edit')"
+                 [style.borderColor]="card.background.contrastColor">Editar meu cartão</div>
+            <div class="view"
+                 *ngIf="!isMyCard && user['followedBy'] != undefined"
+                 (click)="toggleFollow()"
+                 [style.borderColor]="card.background.contrastColor">{{ user['followedBy'] ? 'Deixar de seguir' :
+                'Seguir'}}
+            </div>
+        </div>
+        <div class="share">
+            <ion-button size="small"
+                        fill="clear"
+                        (click)="share()"
+                        *ngIf="isMyCard">
+                <ion-icon slot="icon-only"
+                          [style.color]="card.background.contrastColor"
+                          name="share-social"></ion-icon>
+            </ion-button>
+            <ion-button size="small"
+                        fill="clear"
+                        (click)="collectionSelector.open()"
+                        *ngIf="!isMyCard">
+                <ion-icon slot="icon-only"
+                          [style.color]="card.background.contrastColor"
+                          [name]="false ? 'star' : 'star-outline'"></ion-icon>
+            </ion-button>
+        </div>
+    </div>
+
+    <div class="icons-grid">
+        <div class="icon"
+             *ngFor="let icon of icons">
+            <a href="javascript:;"
+               (click)="goToLink(icon.link)">
+                <img [src]="icon.socialNetwork | socialIcon">
+                <div [style.color]="card.background.contrastColor"
+                     class="icon-title">
+                    {{ icon.title || icon.socialNetwork.title }}</div>
+            </a>
+        </div>
+        <div class="icon placeholder"
+             *ngIf="isMyCard">
+            <a href="javascript:;"
+               (click)="navCtrl.navigateForward('/icons-edit', {queryParams: { openAdd: 1 }})">
+                <ion-icon name="add-outline"
+                          class="placeholder-icon"
+                          [style.borderColor]="card.background.contrastColor"
+                          [style.color]="card.background.contrastColor"></ion-icon>
+                <div [style.color]="card.background.contrastColor"
+                     class="icon-title">Adicionar aplicativo</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- <button class="menu-button"
+            (click)="menuToggle()"
+            [style.color]="card.background.contrastColor">
+        <ion-icon slot="icon-only"
+                  name="menu"></ion-icon>
+    </button> -->
+
+    <!-- <ion-fab vertical="bottom"
+             horizontal="end">
+        <ion-fab-button class="main-fab"
+                        (click)="toggleFabOverlay()">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-list #fabList
+                      side="top"
+                      [activated]="fabIsOpen">
+            <div class="mini-fab-label">
+                <ion-label [style.color]="'white'">Configurações do cartão</ion-label>
+                <ion-fab-button size="small"
+                                color="secondary"
+                                (click)="fabIsOpen = false"
+                                (click)="navCtrl.navigateForward('/icons-edit')">
+                    <ion-icon color="light"
+                              name="settings"></ion-icon>
+                </ion-fab-button>
+            </div>
+
+            <div class="mini-fab-label">
+                <ion-label [style.color]="'white'">Compartilhar meu cartão</ion-label>
+                <ion-fab-button size="small"
+                                color="warning"
+                                (click)="fabIsOpen = false"
+                                (click)="share()">
+                    <ion-icon color="light"
+                              name="share-social-outline"></ion-icon>
+                </ion-fab-button>
+            </div>
+
+            <div class="mini-fab-label">
+                <ion-label [style.color]="'white'">Adicionar novo aplicativo</ion-label>
+                <ion-fab-button size="small"
+                                color="tertiary"
+                                (click)="fabIsOpen = false"
+                                (click)="navCtrl.navigateForward('/icons-edit?openAdd=true')">
+                    <ion-icon size="8px"
+                              color="light"
+                              name="apps"></ion-icon>
+                </ion-fab-button>
+            </div>
+
+        </ion-fab-list>
+    </ion-fab> -->
+</base-content>
+
+<card-collection-selector #collectionSelector
+                          [cardId]="card?.id"></card-collection-selector>

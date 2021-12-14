@@ -1,0 +1,111 @@
+<base-toolbar [showButtonBack]="true"
+              title="Crie sua conta"></base-toolbar>
+
+<ion-content [ngSwitch]="step"
+     class="container">
+    <ng-container *ngSwitchCase="'register'">
+        <form [formGroup]="registerForm">
+            <ion-item>
+                <ion-label position="stacked">Seu nome</ion-label>
+                <ion-input formControlName="name"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Seu e-mail</ion-label>
+                <ion-input formControlName="email"
+                           type="email"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Nome de usuário (nickname)</ion-label>
+                <ion-input (input)="verifyIfNicknameExists($event.target.value)"
+                           formControlName="nickname"></ion-input>
+                <small style="color: var(--ion-color-danger)"
+                       *ngIf="showNicknameExists">
+                    Nome de usuário já existe
+                </small>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Escolha uma senha</ion-label>
+                <small>Minimo de 5 caracteres</small>
+                <ion-input formControlName="password"
+                           type="password"
+                           (input)="verifyPassword()"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Repita a senha</ion-label>
+                <ion-input formControlName="confirmPassword"
+                           type="password"
+                           (input)="verifyPassword()"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col [size]="isCordova ? 6 : 12">
+                            <ion-button size="small"
+                                        color="primary"
+                                        expand="block"
+                                        fill="outline"
+                                        (click)="getPicture({fromGallery: true})">
+                                Carregar foto
+                            </ion-button>
+
+                            <input type="file"
+                                   accept="image/*"
+                                   hidden
+                                   #imageInput
+                                   (change)="onImageSelected($event)">
+
+                        </ion-col>
+                        <ion-col size="6"
+                                 *ngIf="isCordova">
+                            <ion-button size="small"
+                                        color="primary"
+                                        expand="block"
+                                        fill="outline"
+                                        (click)="getPicture()">
+                                Tirar foto
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col style="text-align: center;">
+                            <img [src]="imageLoaded?.url || '../../../assets/images/default-avatar.png'"
+                                 style="width: 150px; border-radius: 50%;">
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+
+            <ion-button color="primary"
+                        expand="block"
+                        [disabled]="registerForm.invalid || sendingConfirmationEmail"
+                        (click)="register()">
+                {{ sendingConfirmationEmail ? 'Verificando conta...' : 'Criar conta'}}</ion-button>
+        </form>
+    </ng-container>
+    <ng-container *ngSwitchCase="'confirmation'">
+        <p>Foi enviado para o seu e-mail um código de 4 dígitos. Por favor, digite-os abaixo.</p>
+        <div class="digits">
+            <input #firstDigit
+                   type="number"
+                   (focus)="firstDigit.select()"
+                   (keyup)="secondDigit.focus();">
+            <input #secondDigit
+                   type="number"
+                   (focus)="secondDigit.select()"
+                   (keyup)="thirdDigit.focus();">
+            <input #thirdDigit
+                   type="number"
+                   (focus)="thirdDigit.select()"
+                   (keyup)="fourthDigit.focus();">
+            <input #fourthDigit
+                   type="number"
+                   (focus)="fourthDigit.select()"
+                   (keyup)="fourthDigit.focus(); validateCode(firstDigit, secondDigit, thirdDigit, fourthDigit)">
+        </div>
+    </ng-container>
+</ion-content>

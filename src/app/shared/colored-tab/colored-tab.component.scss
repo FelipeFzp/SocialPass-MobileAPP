@@ -1,0 +1,50 @@
+.selector-bar {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  position: relative;
+  transition: opacity 0.3s;
+  &.hide {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .selector {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: white;
+    transition: 0.2s ease-out;
+
+    &.right {
+    }
+
+    &.left {
+      left: -134%;
+    }
+  }
+}
+
+ion-avatar {
+  height: 32px;
+  width: 32px;
+}
+
+ion-tab-bar {
+  transition: opacity 0.3s;
+  display: flex;
+  justify-content: space-around;
+
+  ion-label {
+    display: none;
+
+    @media (min-width: 768px) {
+      display: unset;
+    }
+  }
+
+  &.hide {
+    pointer-events: none;
+    opacity: 0;
+  }
+}

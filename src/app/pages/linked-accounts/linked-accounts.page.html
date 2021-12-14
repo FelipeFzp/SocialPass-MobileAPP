@@ -1,0 +1,28 @@
+<base-toolbar [showButtonBack]="true"
+              buttonBackRoute="/home/card"
+              title="Contas vinculadas"></base-toolbar>
+
+<base-content>
+    <p>O XPass te auxilia a criar aplicativos no seu cartão com as redes sociais vinculadas 😉</p>
+    <div class="buttons">
+        <button class="outline-button"
+                [ngClass]="{'linked':  user?.googleUserId}"
+                (click)="toggleGoogleAccountLink()">
+            <ion-icon name="logo-google"></ion-icon>
+            {{ user?.googleUserId ? 'Desvincular com Google' : 'Entrar com Google' }}
+        </button>
+        <button class="outline-button"
+                [ngClass]="{'linked':  user?.linkedinUserId}"
+                (click)="toggleLinkedinAccountLink()">
+            <ion-icon name="logo-linkedin"></ion-icon>
+            {{ user?.linkedinUserId ? 'Desvincular com Linkedin' : 'Entrar com Linkedin' }}
+        </button>
+
+        <button class="outline-button"
+                [ngClass]="{'linked':  user?.facebookUserId}"
+                (click)="toggleFacebookAccountLink()">
+            <ion-icon name="logo-facebook"></ion-icon>
+            {{ user?.facebookUserId ? 'Desvincular com Facebook' : 'Entrar com Facebook' }}
+        </button>
+    </div>
+</base-content>

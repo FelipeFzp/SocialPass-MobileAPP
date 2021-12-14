@@ -1,0 +1,39 @@
+<div class="backdrop"
+     [ngClass]="{'show': showBackdrop}"></div>
+<div class="container">
+    <div class="header">
+        <h2>Bem vindo ao seu cartão!</h2>
+        <span>Agora vamos te ajudar a aparecer em nossas buscas! 😉</span>
+    </div>
+    <div class="content">
+
+        <!-- <section>
+            <ion-label style="font-weight: bold;">Seu endereço</ion-label>
+            <small style="margin-bottom: 12px; color: rgba(0, 0, 0, .6);">Essa informação não será divulgada,
+                mas será utilizada nos nossos mecanismos de
+                buscas.</small>
+            <div (click)="openAddressConfig()"
+                 style="margin-bottom: -5px;"
+                 [ngStyle]="{'color': addressConfig?.description ? '#000' : '#9f9f9f'}">
+                {{ addressConfig?.description || 'Ex.: Av. Julio de Castilhos' }}
+            </div>
+        </section> -->
+
+        <section>
+            <ion-label style="font-weight: bold;">Suas categorias</ion-label>
+            <small style="margin-bottom: 12px; color: rgba(0, 0, 0, .6);">Selecione até {{maxCategories}} categorias
+                para seu cartão</small>
+            <categories-select maxHeight="100%"
+                               minHeight="100%"
+                               [maxCategories]="maxCategories"
+                               [selectedCategoriesIds]="categoriesIDs"
+                               (onSelectionChange)="onCategoriesChange($event)">
+            </categories-select>
+        </section>
+    </div>
+    <div class="actions">
+        <ion-button expand="block"
+                    [disabled]="!formIsValid"
+                    (click)="onDoneClick()">Pronto</ion-button>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="login-body">
+  <div class="logo-mark">
+    <div class="logo">
+      <img src="assets/images/logo_outer.png" />
+      <img src="assets/images/logo_inner.png" />
+    </div>
+    <span>PASS</span>
+  </div>
+
+  <form [formGroup]="loginForm">
+    <ion-item>
+      <ion-label position="fixed">E-mail</ion-label>
+      <ion-input type="email"
+                 autocomplete="off"
+                 formControlName="email"
+                 color="light"
+                 required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Senha</ion-label>
+      <ion-input type="password"
+                 autocomplete="off"
+                 formControlName="password"
+                 color="light"
+                 required></ion-input>
+    </ion-item>
+  </form>
+
+  <div class="buttons">
+    <button color="light"
+            class="white-button"
+            type="submit"
+            (click)="login()">
+      Entrar
+    </button>
+
+    <button (click)="navCtrl.navigateForward('/register')">REGISTRAR-SE</button>
+    <a class="lost-password"
+       (click)="recoverPassword()">Esqueceu sua senha? <span>Clique aqui</span></a>
+  </div>
+  <div class="buttons bottom">
+    <button *ngIf="platform?.isWeb"
+            (click)="loginWithLinkedin()"
+            class="outline-button">
+      <ion-icon name="logo-linkedin"></ion-icon>
+      Entrar com Linkedin
+    </button>
+    <button *ngIf="platform?.isWeb"
+            (click)="loginWithGoogle()"
+            class="outline-button">
+      <ion-icon name="logo-google"></ion-icon>
+      Entrar com Google
+    </button>
+    <button *ngIf="platform?.isWeb"
+            (click)="loginWithFacebook()"
+            class="outline-button">
+      <ion-icon name="logo-facebook"></ion-icon>
+      Entrar com Facebook
+    </button>
+    <button (click)="navCtrl.navigateBack('/')"
+            class="outline-button">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      Voltar para a tela inicial
+    </button>
+  </div>
+</div>

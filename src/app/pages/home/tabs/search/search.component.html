@@ -1,0 +1,189 @@
+<div class="content">
+  <div class="fixed">
+    <div class="header">
+      <div class="welcome-message"
+           *ngIf="loggedUser"><b>Oi {{loggedUser.name.split(' ')[0]}}!</b> É bom ter você de volta! :)</div>
+      <div class="welcome-message"
+           *ngIf="!loggedUser"><button><b (click)="showLogin()">Entre</b></button> para acessar o seu cartão!</div>
+      <img src="assets/images/logo_full.png"
+           width="32px"
+           height="32px">
+    </div>
+    <div class="search">
+      <ion-input #searchInput
+                 placeholder="Digite para pesquisar"
+                 [ngClass]="{'autocomplete-active': showAutocomplete}"
+                 (ionChange)="onSearchChange($event)"
+                 (keydown)="addSearchTag($event)"></ion-input>
+      <div class="autocomplete"
+           [ngClass]="{'show': showAutocomplete}">
+        <div *ngFor="let result of autocompletes"
+             (click)="onAutocompleteClick(result.label, searchInput)">
+          <span>{{ result.label }}</span>
+          <ng-container [ngSwitch]="result.type">
+            <small *ngSwitchCase="'userName'">Nome de usuário</small>
+            <small *ngSwitchCase="'category'">Categoria</small>
+            <small *ngSwitchCase="'socialMedia'">Rede social</small>
+          </ng-container>
+        </div>
+        <!-- <div (click)="onAutocompleteClick()">
+          <span>Felipe Panassol Zaniol</span>
+          <small>Nome de usuário</small>
+        </div>
+        <div (click)="onAutocompleteClick()">
+          <span>Design</span>
+          <small>Categoria</small>
+        </div>
+        <div (click)="onAutocompleteClick()">
+          <span>feliipezz</span>
+          <small>Rede social</small>
+        </div> -->
+      </div>
+      <div class="chips">
+        <ion-chip [outline]="true"
+                  (click)="onDefaultCategoryTagClick()"
+                  *ngIf="selectedDefaultCategory">
+          <ion-label>{{ selectedDefaultCategory }}</ion-label>
+          <ion-icon name="close"></ion-icon>
+        </ion-chip>
+        <ion-chip [outline]="true"
+                  (click)="onSearchTagClick(tag)"
+                  *ngFor="let tag of searchTags">
+          <ion-label>{{ tag }}</ion-label>
+          <ion-icon name="close"></ion-icon>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!searchTags.length && !selectedDefaultCategory"
+       class="categories">
+    <ion-progress-bar *ngIf="loadingResults"
+                      type="indeterminate"
+                      color="secondary"></ion-progress-bar>
+    <div [ngClass]="{'show': defaultCategoriesData}">
+      <section *ngIf="defaultCategoriesData?.topWeek?.length">
+        <div class="header">
+          <span>{{ defaultCategories.topWeek }}</span>
+          <span (click)="selectDefaultCategory(defaultCategories.topWeek)"
+                *ngIf="defaultCategoriesData?.topWeek?.length >= 4">ver mais</span>
+        </div>
+        <div class="results">
+          <div class="result"
+               (click)="onUserClick(user.nickname)"
+               *ngFor="let user of defaultCategoriesData.topWeek; let i = index">
+            <ion-avatar slot="start">
+              <img #profileImage
+                   [src]="user.imageUrl"
+                   (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+            </ion-avatar>
+            <ion-label>{{ user.name }}</ion-label>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="defaultCategoriesData?.nearToYou?.length">
+        <div class="header">
+          <span>{{ defaultCategories.nearToYou }}</span>
+          <span (click)="selectDefaultCategory(defaultCategories.nearToYou)"
+                *ngIf="defaultCategoriesData?.nearToYou?.length >= 4">ver mais</span>
+        </div>
+        <div class="results">
+          <div class="result"
+               (click)="onUserClick(user.nickname)"
+               *ngFor="let user of defaultCategoriesData.nearToYou; let i = index">
+            <ion-avatar slot="start">
+              <img #profileImage
+                   [src]="user.imageUrl"
+                   (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+            </ion-avatar>
+            <ion-label>{{ user.name }}</ion-label>
+          </div>
+
+        </div>
+      </section>
+      <section *ngIf="defaultCategoriesData?.likeYou?.length">
+        <div class="header">
+          <span>{{ defaultCategories.likeYou }}</span>
+          <span (click)="selectDefaultCategory(defaultCategories.likeYou)"
+                *ngIf="defaultCategoriesData?.likeYou?.length >= 4">ver mais</span>
+        </div>
+        <div class="results">
+          <div class="result"
+               (click)="onUserClick(user.nickname)"
+               *ngFor="let user of defaultCategoriesData.likeYou; let i = index">
+            <ion-avatar slot="start">
+              <img #profileImage
+                   [src]="user.imageUrl"
+                   (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+            </ion-avatar>
+            <ion-label>{{ user.name }}</ion-label>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="defaultCategoriesData?.likeYourFollows?.length">
+        <div class="header">
+          <span>{{ defaultCategories.likeYourFollows }}</span>
+          <span (click)="selectDefaultCategory(defaultCategories.likeYourFollows)"
+                *ngIf="defaultCategoriesData?.likeYourFollows?.length >= 4">ver mais</span>
+        </div>
+        <div class="results">
+          <div class="result"
+               (click)="onUserClick(user.nickname)"
+               *ngFor="let user of defaultCategoriesData.likeYourFollows; let i = index">
+            <ion-avatar slot="start">
+              <img #profileImage
+                   [src]="user.imageUrl"
+                   (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+            </ion-avatar>
+            <ion-label>{{ user.name }}</ion-label>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="defaultCategoriesData?.recent?.length">
+        <div class="header">
+          <span>{{ defaultCategories.recent }}</span>
+          <span (click)="selectDefaultCategory(defaultCategories.recent)"
+                *ngIf="defaultCategoriesData?.recent?.length >= 4">ver mais</span>
+        </div>
+        <div class="results">
+          <div class="result"
+               (click)="onUserClick(user.nickname)"
+               *ngFor="let user of defaultCategoriesData.recent; let i = index">
+            <ion-avatar slot="start">
+              <img #profileImage
+                   [src]="user.imageUrl"
+                   (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+            </ion-avatar>
+            <ion-label>{{ user.name }}</ion-label>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+  <div *ngIf="searchTags.length || selectedDefaultCategory"
+       class="search-results">
+    <div class="header">
+      <span>Aqui estão seus resultados!</span>
+    </div>
+    <div class="results">
+      <div class="result"
+           (click)="onUserClick(user.nickname)"
+           *ngFor="let user of searchResults; let i = index">
+        <ion-avatar slot="start">
+          <img #profileImage
+               [src]="user.imageUrl"
+               (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+        </ion-avatar>
+        <ion-label>{{ user.name }}</ion-label>
+      </div>
+    </div>
+    <ion-progress-bar *ngIf="loadingResults"
+                      type="indeterminate"
+                      color="secondary"></ion-progress-bar>
+    <span *ngIf="!loadingResults && hasMore"
+          class="load-more"
+          (click)="loadMoreSearchResults()">
+      Carregar mais
+    </span>
+  </div>
+</div>

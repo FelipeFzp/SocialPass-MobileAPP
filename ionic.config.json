@@ -1,0 +1,8 @@
+{
+  "name": "xpass-app",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

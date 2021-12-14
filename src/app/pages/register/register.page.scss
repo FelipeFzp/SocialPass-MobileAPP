@@ -1,0 +1,46 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ion-content {
+    --background: var(--background-color);
+  }
+
+  base-toolbar {
+    width: 100%;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 12px 24px;
+    max-width: 600px;
+
+    ion-item {
+      --background: var(--background-color);
+
+      small {
+        font-size: 12px;
+        margin-top: 4px;
+        color: #a1a2a4;
+      }
+    }
+
+    .digits {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+
+      input {
+        max-width: 46px;
+        min-height: 52px;
+        font-size: 28px;
+        text-align: center;
+        margin: 0;
+        outline: none;
+      }
+    }
+  }
+}

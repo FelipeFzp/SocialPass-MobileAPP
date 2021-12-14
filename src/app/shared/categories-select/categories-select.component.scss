@@ -1,0 +1,78 @@
+:host {
+  width: 100%;
+  .container {
+    padding-left: 0;
+    ion-input {
+      border: 1px solid #707070;
+      border-radius: 25px;
+      transition: 0.3s;
+      transition-delay: 0.4s;
+
+      &.autocomplete-active {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        transition-delay: 0s;
+        border-bottom-color: transparent;
+      }
+    }
+
+    .autocomplete {
+      width: 100%;
+      height: min-content;
+      background-color: var(--background-color);
+      max-height: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transition: 0.5s;
+      border-radius: 25px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border: 1px solid var(--background-color);
+
+      div {
+        height: 48px;
+        cursor: pointer;
+        pointer-events: all;
+        user-select: none;
+        padding: 4px 20px;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        border-bottom: 1px solid #d8d8d8;
+
+        span {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      &.show {
+        border: 1px solid #707070;
+        border-top-color: transparent;
+        max-height: 260px;
+        overflow: auto;
+      }
+    }
+
+    .chips {
+      margin-top: 8px;
+      ion-chip {
+        margin-bottom: 12px;
+      }
+
+      ion-chip:nth-child(4n + 1) {
+        border-color: var(--ion-color-primary);
+      }
+      ion-chip:nth-child(4n + 2) {
+        border-color: var(--ion-color-secondary);
+      }
+      ion-chip:nth-child(4n + 3) {
+        border-color: var(--ion-color-tertiary);
+      }
+      ion-chip:nth-child(4n + 4) {
+        border-color: var(--ion-color-warning);
+      }
+    }
+  }
+}

@@ -1,0 +1,205 @@
+@import "../../../../../theme/variables.scss";
+
+.content {
+  padding: 12px 25px;
+  flex: 1;
+  overflow: auto;
+
+  .sc-ion-input-ios-h {
+    &.ios {
+      --padding-start: 10px !important;
+    }
+  }
+
+  .fixed {
+    background-color: var(--background-color);
+    position: sticky;
+    top: -12px;
+    padding-top: 12px;
+    margin: 0 auto;
+    width: var(--container-width);
+    max-width: var(--container-max-width);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .welcome-message {
+      button {
+        background-color: transparent;
+        outline: none;
+      }
+
+      @media only screen and (max-width: 400px) {
+        button {
+          padding: 0;
+          margin: 0;
+        }
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    span {
+      font-weight: bold;
+    }
+
+    span:nth-child(2) {
+      user-select: none;
+      cursor: pointer;
+      color: var(--ion-color-secondary);
+    }
+  }
+
+  .search {
+    ion-input {
+      border: 1px solid #707070;
+      border-radius: 25px;
+      transition: 0.3s;
+      transition-delay: 0.4s;
+
+      &.autocomplete-active {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        transition-delay: 0s;
+        border-bottom-color: transparent;
+      }
+    }
+
+    .autocomplete {
+      width: 100%;
+      height: min-content;
+      background-color: var(--background-color);
+      max-height: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transition: 0.5s;
+      border-radius: 25px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border: 1px solid var(--background-color);
+
+      div {
+        height: 48px;
+        cursor: pointer;
+        pointer-events: all;
+        user-select: none;
+        padding: 4px 20px;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        border-bottom: 1px solid #d8d8d8;
+
+        span {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      &.show {
+        border: 1px solid #707070;
+        border-top-color: transparent;
+        max-height: 200px;
+        overflow: auto;
+      }
+    }
+
+    .chips {
+      margin: 20px -25px 0;
+      overflow-x: auto;
+      white-space: nowrap;
+
+      ion-chip {
+        margin-bottom: 12px;
+      }
+
+      ion-chip:nth-child(1) {
+        margin-left: 25px;
+      }
+      ion-chip:nth-child(4n + 1) {
+        border-color: var(--ion-color-primary);
+      }
+      ion-chip:nth-child(4n + 2) {
+        border-color: var(--ion-color-secondary);
+      }
+      ion-chip:nth-child(4n + 3) {
+        border-color: var(--ion-color-tertiary);
+      }
+      ion-chip:nth-child(4n + 4) {
+        border-color: var(--ion-color-warning);
+      }
+    }
+  }
+
+  .results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: flex-start;
+
+    .result {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      width: 70px;
+      max-height: 110px;
+      overflow: hidden;
+
+      ion-label {
+        margin-top: 12px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .categories {
+    width: var(--container-width);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    > div {
+      opacity: 0;
+      transition: 1s;
+
+      &.show {
+        opacity: 1;
+      }
+
+      section {
+        margin-bottom: 22px;
+
+        &:last-child .results {
+          border-bottom: none !important;
+        }
+      }
+    }
+  }
+
+  .search-results {
+    .results {
+      border-bottom: none;
+
+      .result {
+        margin: 14px 0;
+      }
+    }
+
+    .load-more {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: -12px -25px;
+      height: 64px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,77 @@
+<ion-app [ngClass]="{ 'desktop': desktopVersion.isDesktop }">
+  <ion-menu #menu
+            contentId="main"
+            side="end">
+    <ion-header>
+      <div class="base-infos">
+        <img #avatarImg
+             [src]="storageService.data?.user?.imageUrl || '../assets/images/default-avatar.png'"
+             (error)="avatarImg.src = '../assets/images/default-avatar.png'">
+        <div class="user-infos">
+          <div>Olá {{ userShortName }}, tudo bem?</div>
+          <div>{{ storageService.data?.user?.email }}</div>
+          <div>{{ storageService.data?.user?.nickname }}</div>
+          <button (click)="menu.close()"
+                  (click)="navCtrl.navigateForward('/account-settings')"
+                  color="light"
+                  fill="outline"
+                  size="small">
+            <ion-label>Editar perfil</ion-label>
+          </button>
+        </div>
+      </div>
+      <div class="follows">
+        <label (click)="menu.close(); navCtrl.navigateRoot('/account-follows/following')">
+          <span>{{ followStatistics?.followingCount || '0' }}</span>
+          <small>Seguindo</small>
+        </label>
+        <label (click)="menu.close(); navCtrl.navigateRoot('/account-follows/followers')">
+          <span>{{ followStatistics?.followersCount || '0' }}</span>
+          <small>Seguidores</small>
+        </label>
+      </div>
+    </ion-header>
+
+    <ion-content>
+      <ion-list class="menu-items">
+        <ion-item (click)="menu.close()"
+                  (click)="navCtrl.navigateRoot('/card-collections')"
+                  [ngClass]="{'selected': currentMenuSelected == '/card-collections'}">
+          <ion-icon name="star-outline"
+                    item-left></ion-icon>
+          <ion-label class="menu-label">Coleções</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="appPlatform?.isWeb"
+                  (click)="menu.close()"
+                  (click)="navCtrl.navigateRoot('/linked-accounts')"
+                  [ngClass]="{'selected': currentMenuSelected == '/linkedAccounts'}">
+          <ion-icon name="key-outline"
+                    item-left></ion-icon>
+          <ion-label class="menu-label">Contas vinculadas</ion-label>
+        </ion-item>
+
+        <!-- <ion-item (click)="menu.close()"
+                  (click)="navCtrl.navigateForward('/about')"
+                  [ngClass]="{'selected': currentMenuSelected == '/about'}">
+          <ion-icon name="information-circle"
+                    item-left></ion-icon>
+          <ion-label class="menu-label">Sobre</ion-label>
+        </ion-item> -->
+
+      </ion-list>
+    </ion-content>
+
+    <ion-footer>
+      <ion-item style="cursor: pointer; position: absolute; bottom: 0;"
+                (click)="logout()">
+        <ion-icon name="exit"
+                  item-left></ion-icon>
+        <ion-label class="menu-label">Desconectar</ion-label>
+      </ion-item>
+    </ion-footer>
+
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+</ion-app>

@@ -1,0 +1,14 @@
+import { ApiModel } from '../abstraction/api-model';
+
+export interface Address extends ApiModel {
+
+    description: string;
+    postalCode?: string;
+    city: string;
+    region: string;
+    country: string;
+    referencePoint?: string;
+    complement?: string;
+    latitude: number;
+    longitude: number;
+}

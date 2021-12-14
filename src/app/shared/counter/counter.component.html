@@ -1,0 +1,25 @@
+<div class="counter">
+
+  <ion-grid>
+    <ion-row>
+
+      <ion-col (click)="decreaseValue()">
+        <ion-button color="light" shape="round">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <ion-col class="price">
+        <strong>{{ value }}</strong>
+      </ion-col>
+
+      <ion-col (click)="increaseValue()">
+        <ion-button color="light" shape="round">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+</div>

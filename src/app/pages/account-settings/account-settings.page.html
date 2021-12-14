@@ -1,0 +1,85 @@
+<base-toolbar [showButtonBack]="true"
+              title="Minha conta"></base-toolbar>
+
+<ion-content>
+    <form [formGroup]="accountForm">
+
+        <ion-list style="margin-bottom: 150px;">
+
+            <ion-item>
+                <ion-label position="floating">Seu nome</ion-label>
+                <ion-input formControlName="name"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Seu e-mail</ion-label>
+                <ion-input formControlName="email"
+                           type="email"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Nome de usuário (nickname)</ion-label>
+                <ion-input (input)="verifyIfNicknameExists($event.target.value)"
+                           formControlName="nickname"></ion-input>
+                <small style="color: var(--ion-color-danger)"
+                       *ngIf="showNicknameExists">
+                    Nome de usuário já existe
+                </small>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Conte um pouco sobre você</ion-label>
+                <ion-textarea maxlength="72"
+                              type="text"
+                              rows="2"
+                              formControlName="bio"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col [size]="isCordova ? 6 : 12">
+                            <ion-button size="small"
+                                        color="primary"
+                                        expand="block"
+                                        fill="outline"
+                                        (click)="getPicture({fromGallery: true})">
+                                Carregar foto
+                            </ion-button>
+
+                            <input type="file"
+                                   accept="image/*"
+                                   hidden
+                                   #imageInput
+                                   (change)="onImageSelected($event)">
+
+                        </ion-col>
+                        <ion-col size="6"
+                                 *ngIf="isCordova">
+                            <ion-button size="small"
+                                        color="primary"
+                                        expand="block"
+                                        fill="outline"
+                                        (click)="getPicture()">
+                                Tirar foto
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col style="text-align: center;">
+                            <img #avatarImg
+                                 [src]="imageLoaded.url || '../../../assets/images/default-avatar.png'"
+                                 (error)="avatarImg.src = '../../../assets/images/default-avatar.png'"
+                                 style="width: 150px; border-radius: 50%;">
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </ion-list>
+
+        <ion-button color="primary"
+                    expand="block"
+                    (click)="save()">Salvar</ion-button>
+    </form>
+
+</ion-content>

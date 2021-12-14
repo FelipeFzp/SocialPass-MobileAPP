@@ -1,0 +1,28 @@
+<ion-tabs *ngIf="tabs"
+          (ionTabsDidChange)="updateTabCustomSelector($event.tab)"
+          (ionTabsDidChange)="onTabChange.emit()">
+  <div class="selector-bar"
+       [ngClass]="{'hide': !tabsService.show}">
+    <div class="selector left"
+         [style.transform]="'translateX(calc((100% / ' + tabs.length + ') * '+ selectedTabIndex +' ))'"></div>
+    <div class="selector right"
+         [style.transform]="'translateX(calc((100% / ' + tabs.length + ') * '+ selectedTabIndex +'))'"></div>
+  </div>
+  <ion-tab-bar slot="bottom"
+               [ngClass]="{'hide': !tabsService.show}">
+
+    <ion-tab-button *ngFor="let tab of tabs; let i = index"
+                    [tab]="tab.route"
+                    [id]="tab.id"
+                    (click)="onTabClick.emit(tab.id)">
+      <ion-icon *ngIf="tab.icon"
+                [name]="tab.icon"></ion-icon>
+      <ion-avatar *ngIf="tab.imageUrl">
+        <img [src]="tab.imageUrl"
+             #tabImg
+             (error)="tabImg.src = '../../../assets/images/default-avatar.png'">
+      </ion-avatar>
+      <ion-label *ngIf="tab.label">{{tab.label}}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

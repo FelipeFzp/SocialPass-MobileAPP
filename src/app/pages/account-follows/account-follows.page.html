@@ -1,0 +1,36 @@
+<base-toolbar [showButtonBack]="true"
+              [title]="user?.nickname"></base-toolbar>
+<div class="tabs">
+    <div class="titles"
+         (click)="switchTab()">
+        <span>Seguindo</span>
+        <span>Seguidores</span>
+    </div>
+    <div class="selector"
+         [style]="'left:' + (tab == 'following' ? '0' : '50') + '%'"></div>
+</div>
+<div class="followers">
+    <input class="search"
+           #searchInput
+           placeholder="Digite para pesquisar"
+           (input)="searchChange.next(searchInput.value)">
+    <span class="empty"
+          *ngIf="!showLoading && !followers?.length">Não encontramos nada por aqui 🤷‍♂️</span>
+    <div class="follower"
+         (click)="goToFollower(follower.nickname)"
+         *ngFor="let follower of followers">
+        <img #profileImage
+             [src]="follower.imageUrl"
+             (error)="profileImage.src = '../../../../../assets/images/default-avatar.png'">
+        <div class="info-follower">
+            <span>{{follower.name}}</span>
+            <span>{{follower.bio}}</span>
+        </div>
+    </div>
+    <ion-progress-bar *ngIf="showLoading"
+                      type="indeterminate"
+                      color="secondary"></ion-progress-bar>
+    <span class="load-more"
+          (click)="pageIndex = pageIndex+1; loadFollowers()"
+          *ngIf="showLoadMore">Carregar mais</span>
+</div>

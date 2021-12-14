@@ -1,0 +1,79 @@
+:host {
+  .collection-containers {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+
+    overflow: auto;
+
+    .empty {
+      width: 100%;
+      text-align: center;
+    }
+
+    .collection {
+      max-width: var(--container-max-width);
+      width: var(--container-width);
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+
+        div {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .delete {
+          font-size: 22px;
+          cursor: pointer;
+          color: var(--ion-color-primary-shade);
+
+          &.disabled {
+            opacity: 0.6;
+            pointer-events: none;
+          }
+        }
+
+        ion-icon {
+          font-size: 20px;
+        }
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(4, calc(100% / 4));
+        row-gap: 12px;
+
+        .card {
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          text-align: center;
+          max-width: 90%;
+          max-height: 110px;
+          overflow: hidden;
+          border: none;
+          background-color: var(--background-color);
+
+          &.disabled {
+            pointer-events: none;
+          }
+
+          ion-label {
+            margin-top: 12px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+.content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.content-height {
+    // height: calc(100vh - 56px) !important;
+    height: 100vh;
+}
+
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-position: center !important;
+    background-size: cover !important;
+}
+
+.back-background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

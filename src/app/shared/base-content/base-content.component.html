@@ -1,0 +1,16 @@
+<ion-content class="content-height">
+
+  <div class="back-background"
+       [style.background]="backBackground">
+       
+    <div class="background"
+         [ngStyle]="{
+         'background': background,
+         'filter': 'brightness('+ (showBackgroundOverlay ? '0.85' : '1') +') blur('+blur+'px)'}"></div>
+  </div>
+
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+
+</ion-content>

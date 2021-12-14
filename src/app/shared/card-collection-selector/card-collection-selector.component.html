@@ -1,0 +1,54 @@
+<div class="backdrop"
+     [ngClass]="{'show': opened}"
+     (click)="!loading ? close() : undefined"></div>
+
+<div class="selector-container"
+     [ngClass]="{'show': opened}">
+  <ion-progress-bar type="indeterminate"
+                    *ngIf="loading"></ion-progress-bar>
+  <div class="header">
+    <div class="left">
+      <ion-icon name="arrow-back"
+                *ngIf="type == 'new'"
+                [ngClass]="{'disabled': loading}"
+                (click)="type = 'list'"></ion-icon>
+    </div>
+    <div class="center">
+      <span>{{ type == 'list' ? 'Coleções' : 'Nova coleção' }}</span>
+    </div>
+    <div class="right">
+      <ion-icon name="add"
+                *ngIf="type == 'list'"
+                [ngClass]="{'disabled': loading}"
+                (click)="type = 'new'"></ion-icon>
+      <ion-icon name="checkmark-outline"
+                [ngClass]="{'disabled': !collectionName?.length || loading}"
+                *ngIf="type == 'new'"
+                (click)="collectionName?.length >= 0 ? saveCollection() : undefined"></ion-icon>
+
+    </div>
+  </div>
+
+  <div class="content">
+    <ng-container [ngSwitch]="type">
+      <div *ngSwitchCase="'new'">
+        <input (input)="collectionName = $event.target.value"
+               [disabled]="loading"
+               placeholder="Digite o nome para sua coleção">
+      </div>
+      <div *ngSwitchCase="'list'"
+           class="list">
+        <div class="item"
+             *ngFor="let collection of collections">
+          <div>
+            <span>{{ collection.name }}</span>
+            <small>{{ collection.cardsIds?.includes(cardId) ? 'Salvo nesta coleção, clique para remover' : '' }}</small>
+          </div>
+          <ion-icon [name]="collection.cardsIds?.includes(cardId) ? 'star' : 'star-outline'"
+                    [ngClass]="{'disabled': loading, 'saved': collection.cardsIds?.includes(cardId)}"
+                    (click)="addToCollection(collection.id)"></ion-icon>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

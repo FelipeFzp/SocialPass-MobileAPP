@@ -1,0 +1,14 @@
+ion-toolbar {
+  background-color: #23a6d5;
+  color: white;
+  ion-title {
+    font-weight: normal;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+  }
+
+  ion-buttons {
+    min-width: 32px;
+  }
+}

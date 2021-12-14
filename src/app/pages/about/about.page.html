@@ -1,0 +1,19 @@
+<base-toolbar [showButtonBack]="true"
+              title="Sobre"></base-toolbar>
+
+<base-content>
+
+    <ion-grid class="text-center">
+        <ion-row>
+            <ion-col>
+                <h1>X-Pass</h1>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label style="font-weight: bold;">{{appVersionCode ? 'Versão ' + appVersionCode : ''}}</ion-label>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</base-content>

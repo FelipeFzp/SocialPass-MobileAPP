@@ -1,0 +1,159 @@
+<base-toolbar title="Configurações"
+              buttonBackRoute="/home/card"
+              [showButtonBack]="true"></base-toolbar>
+
+<base-content *ngIf="card">
+
+  <!-- BACKGROUND -->
+  <div class="section">
+    <div class="row">
+      <div class="col">
+        <ion-label style="font-weight: bold;">Plano de fundo</ion-label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col"
+           size="7">
+        <ion-button *ngIf="isCordova"
+                    size="small"
+                    color="primary"
+                    fill="outline"
+                    expand="block"
+                    (click)="getPicture({fromGallery: true})">
+          Imagem
+        </ion-button>
+        <ion-button *ngIf="!isCordova"
+                    (click)="imageInput.click()"
+                    size="small"
+                    color="primary"
+                    fill="outline"
+                    expand="block">
+          Imagem
+        </ion-button>
+        <input type="file"
+               accept="image/*"
+               hidden
+               #imageInput
+               (change)="onImageSelected($event)">
+
+        <ion-button (click)="bgColor.click()"
+                    size="small"
+                    color="primary"
+                    fill="outline"
+                    expand="block">
+          Cor sólida
+        </ion-button>
+        <input #bgColor
+               style="display: none;"
+               (change)="colorBackgroundChanged(bgColor.value)"
+               type="color">
+
+      </div>
+      <div class="col"
+           size="5">
+        <div *ngIf="background.rgbColor"
+             [style.background]="background.rgbColor | cssRbg"
+             class="bg-color">
+        </div>
+        <img *ngIf="background.image.url"
+             [src]="background.image.url"
+             [ngStyle]="{'filter': 'blur(' + card.background.blur * 0.5 + 'px)'}"
+             class="bg-image">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <ion-label style="font-weight: bold;">Nivel de desfoque</ion-label>
+        <ion-range min="0"
+                   max="10"
+                   [pin]="true"
+                   [ticks]="true"
+                   [debounce]="500"
+                   [value]="card.background.blur"
+                   class="blur-level-range"
+                   (ionChange)="updateBlur($event.target.value)"></ion-range>
+      </div>
+    </div>
+    <div class="row"
+         *ngIf="showButtonBgUpdate">
+      <div class="col">
+        <ion-button (click)="updateBackground()"
+                    size="small"
+                    color="primary"
+                    expand="block">
+          Atualizar
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADDRESS -->
+  <div class="section">
+    <div class="row">
+      <ion-label style="font-weight: bold;">Seu endereço</ion-label>
+      <small>Essa informação não será divulgada, mas será utilizada nos nossos mecanismos de buscas.</small>
+    </div>
+    <div class="row">
+      <div (click)="openAddressConfig()"
+           style="margin-bottom: -5px;"
+           [ngStyle]="{'color': addressConfig?.description ? '#000' : '#9f9f9f'}">
+        {{ addressConfig?.description || 'Ex.: Av. Julio de Castilhos' }}
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section">
+    <div class="row">
+      <ion-label style="font-weight: bold;">Suas categorias</ion-label>
+      <small>Você pode selecionar até 3 categorias que serão utilizadas nos nossos mecanismos de buscas.</small>
+    </div>
+    <div class="row">
+      <categories-select [selectedCategoriesIds]="categoriesIds"
+                         (onSelectionChange)="updateCategories($event)">
+      </categories-select>
+    </div>
+
+  </div>
+
+  <!-- ICONS -->
+  <div class="section"
+       style="margin-bottom: 100px;">
+    <div class="row">
+      <div class="col">
+        <ion-label style="font-weight: bold;">Ícones</ion-label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <ion-reorder-group disabled="false"
+                           (ionItemReorder)="reorder($event)">
+
+          <ion-item *ngFor="let icon of icons"
+                    class="icon-item"
+                    (click)="openIcon(icon)">
+            <img [src]="icon.socialNetwork | socialIcon">
+            <ion-label>{{ icon.title || icon.socialNetwork.title }}</ion-label>
+
+            <ion-reorder slot="end">
+              <ion-icon name="reorder-three-outline"></ion-icon>
+            </ion-reorder>
+
+          </ion-item>
+
+        </ion-reorder-group>
+
+      </div>
+    </div>
+  </div>
+
+</base-content>
+
+<ion-fab slot="fixed"
+         class="btn-add">
+  <ion-fab-button (click)="openIcon()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

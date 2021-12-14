@@ -1,0 +1,119 @@
+<ion-content>
+  <ion-title class="title">{{ icon ? icon.socialNetwork.title : 'Novo aplicativo' }}</ion-title>
+
+  <form [formGroup]="iconForm">
+    <ion-list style="margin-bottom: 150px;">
+      <ion-item>
+        <ion-label>Selecione um aplicativo</ion-label>
+        <ion-select formControlName="socialNetwork"
+                    interface="action-sheet"
+                    (ionChange)="verifySocialNetwork()">
+          <ion-select-option *ngFor="let sn of socialNetworks"
+                             [value]="sn.id">
+            {{ sn.title }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ng-container *ngIf="selectedNetwork">
+        <ion-item *ngIf="selectedNetwork?.baseUrl">
+          <ion-label style="flex: 1"
+                     position="floating">{{selectedNetwork.placeholderPrefix}}</ion-label>
+          <ion-input formControlName="nick"
+                     placeholder={{selectedNetwork.placeholderValue}}></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="!selectedNetwork?.baseUrl">
+          <ion-label position="floating">{{selectedNetwork.placeholderPrefix || 'Link da rede social'}}</ion-label>
+          <ion-input formControlName="link"
+                     placeholder="{{selectedNetwork.placeholderValue}}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label style="flex: 1"
+                     position="floating">Escolha um nome para seu aplicativo</ion-label>
+          <ion-input type="text"
+                     maxlength="20"
+                     formControlName="title"
+                     placeholder="{{selectedNetwork.title}}"></ion-input>
+        </ion-item>
+
+        <div *ngIf="socialNetworkIntegrations[selectedNetwork.key] && platform?.isWeb"
+             class="integrations">
+          <p class="success"
+             *ngIf="socialNetworkAutoConfigured">
+            <b>Boa, o app {{selectedNetwork.title}} foi configurado com sucesso!</b>
+            <br> Clique em Salvar para continuar 😉
+          </p>
+          <ng-container *ngIf="!socialNetworkAutoConfigured">
+            <p>Nós podemos te ajudar a configurar o {{selectedNetwork.title}} mais rapidamente! 🚀 <br> Clique no botão
+              e faça login normalmente.</p>
+            <div class="buttons">
+              <button class="outline-button"
+                      (click)="configureFromFacebook()"
+                      *ngIf="socialNetworkIntegrations[selectedNetwork.key].hasFacebookIntegration">
+                <ion-icon name="logo-facebook"></ion-icon>
+                Configurar com Facebook
+              </button>
+
+              <button class="outline-button"
+                      (click)="configureFromGoogle()"
+                      *ngIf="socialNetworkIntegrations[selectedNetwork.key].hasGoogleIntegration">
+                <ion-icon name="logo-google"></ion-icon>
+                Configurar com Google
+              </button>
+              <button class="outline-button"
+                      (click)="configureFromLinkedin()"
+                      *ngIf="socialNetworkIntegrations[selectedNetwork.key].hasLinkedinIntegration">
+                <ion-icon name="logo-linkedin"></ion-icon>
+                Configurar com Linkedin
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ion-list>
+  </form>
+
+
+</ion-content>
+
+<ion-footer class="footer-bottom">
+
+  <ion-grid *ngIf="icon">
+    <ion-row>
+      <ion-col style="padding-bottom: 0;">
+        <ion-button color="danger"
+                    fill="outline"
+                    size="small"
+                    expand="block"
+                    style="margin-bottom: 0;"
+                    (click)="remove()">
+          Excluir
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button color="primary"
+                      fill="outline"
+                      expand="block"
+                      (click)="cancel()">
+            Cancelar
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button color="primary"
+                      expand="block"
+                      (click)="save()">
+            Salvar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>
